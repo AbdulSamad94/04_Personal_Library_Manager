@@ -59,6 +59,50 @@ def remove_book():
     return True
 
 
+def search_books():
+    books = load_books()
+    if not books:
+        print("\nNo books found to be searched.\n")
+        return True
+
+    book_name = input("Enter the book name you want to search: ").lower()
+
+    for book in books:
+        if book["title"].lower() == book_name:
+            print(
+                f"\n'{book['title']}' by '{book['author']}' ---- [Status : {book['status']}]\n"
+            )
+            return True
+
+    print(f"\nNo book with the title '{book_name}' was found.\n")
+    return True
+
+
+def display_statistics():
+    books = load_books()
+    if not books:
+        print("\nNo books found to display statistics.\n")
+        return True
+
+    reading_books = []
+    whitelisted_books = []
+    completed_books = []
+
+    for book in books:
+        if book["status"] == "reading":
+            reading_books.append(book)
+        elif book["status"] == "whitelisted":
+            whitelisted_books.append(book)
+        elif book["status"] == "completed":
+            completed_books.append(book)
+
+    print(f"\nTotal books in the list: {len(books)}")
+    print(f"\nTotal books reading: {len(reading_books)}")
+    print(f"\nTotal books to be read: {len(whitelisted_books)}")
+    print(f"\nTotal books completed reading: {len(completed_books)}\n")
+    return True
+
+
 def main():
     print("\nLibrary Management System\n")
     program = True
@@ -67,7 +111,9 @@ def main():
         print("1. Add Book.")
         print("2. Display All Books.")
         print("3. Remove Book")
-        print("4. Exit")
+        print("4. Search Books")
+        print("5. Display Statistics")
+        print("6. Exit")
 
         try:
             choice = int(input("\nEnter your choice: "))
@@ -83,6 +129,10 @@ def main():
         elif choice == 3:
             remove_book()
         elif choice == 4:
+            search_books()
+        elif choice == 5:
+            display_statistics()
+        elif choice == 6:
             print("\nExiting The Program.......\n")
             break
         else:
